@@ -4,7 +4,7 @@ A **LinkedIn Lead Discovery Model Context Protocol (MCP) server built by Typenod
 
 **Built and smoke-tested in a maintainer installation.** This repository contains current contracts, setup requirements, prompts and synthetic examples. Implementation code, Workflow exports, provider wiring and private endpoints remain within Typenode. Independent installation of the latest published template snapshot remains a release gate; see [verification](docs/verification.md).
 
-**[Explore Typenode](https://typenode.ai)** · **[Setup requirements](docs/setup.md)** · **[Task prompts](prompts/getting-started.md)**
+**[Get this template](https://typenode.ai/templates/linkedin-mcp)** · **[Setup requirements](docs/setup.md)** · **[Task prompts](prompts/getting-started.md)**
 
 ## What can it help you investigate?
 
@@ -76,7 +76,7 @@ Names, descriptions and input/output schemas match the current reviewed template
 3. Add your own Typenode MCP endpoint to a compatible client and complete Typenode authentication.
 4. Supply concrete search criteria. Use the configured budget default or pass an allowed request cap. Make a first discovery call, then use its receipt to read existing results.
 
-The public activation link and fresh installation proof are pending. Cloning this repository does not start a server. The JSON contracts cannot be imported as executable Workflows. See [setup](docs/setup.md) and [verification](docs/verification.md).
+The [template page](https://typenode.ai/templates/linkedin-mcp) is live. Independent installation of the latest published snapshot remains unverified. Cloning this repository does not start a server. The JSON contracts cannot be imported as executable Workflows. See [setup](docs/setup.md) and [verification](docs/verification.md).
 
 ## Permissions and costs
 

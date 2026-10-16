@@ -1,7 +1,7 @@
 {
   "format": "typenode-mcp-reference-draft",
   "format_version": "0.1",
-  "status": "built_reference_draft_activation_pending",
+  "status": "published_template_reference",
   "slug": "linkedin-mcp",
   "version": "0.1.0-draft",
   "title": "LinkedIn Lead Discovery MCP",
@@ -13,7 +13,7 @@
     "platform": "typenode",
     "hosting": "customer_workspace",
     "standalone": false,
-    "availability": "tested_installation"
+    "availability": "published_template"
   },
   "distribution": {
     "contents": "contracts_and_usage_documentation",
@@ -254,7 +254,7 @@
     "All 24 tools have live smoke evidence; this is not universal client or independent installation qualification.",
     "Source access is read-only toward LinkedIn, but collections create Apify runs/datasets and can incur costs.",
     "The qualified providers use the configured Apify token; no LinkedIn browser session is required by this template.",
-    "Application/authentication catalog identifiers are provisional.",
+    "Application/authentication identifiers match the reviewed current catalog.",
     "Created by Typenode; not affiliated with or endorsed by LinkedIn or Apify."
   ]
 }

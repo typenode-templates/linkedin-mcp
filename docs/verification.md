@@ -9,7 +9,8 @@ Reconciled 17 October 2026 against the current reviewed template artifact, all s
 | Local checks | 110 generated-graph cases and 24 artifact/source validations passed in the build evidence. They cover representative source, budget, recovery and output boundaries; mocks do not prove current provider behavior. |
 | Latest amendment | Formatting regexes were removed from advertised inputs while preflight validation and actionable corrections were preserved. All 24 deployments succeeded; three malformed-input client checks returned corrections without paid starts after catalog refresh and restart. |
 | Public reference | Exported contracts, synthetic examples, local links and private-identity/implementation exclusions are checked separately. Safety annotations are reference intent; cross-host propagation is unqualified. |
-| Remaining gates | Platform-admin publication of the reviewed latest snapshot; independent customer cloning/configuration/use; known-expiry client renewal; broader client schema compatibility. |
+| Catalog publication | The reviewed 24-tool bundle was published to production on 17 October 2026; its exact snapshot and inventory were read back through the catalog MCP. Its public template page is live. |
+| Remaining gates | Independent customer cloning/configuration/use; known-expiry client renewal; broader client schema compatibility. |
 
 ## Limits
 
@@ -19,6 +20,6 @@ New acquisitions create paid Apify runs. Empty data can incur costs. Provider pr
 
 No private test-account policy, token, account identity, provider mapping or real-person result is exported. The maintainer's test budget is not a customer default.
 
-## Before publication
+## Before broad promotion
 
-Verify that public setup resolves the intended latest snapshot and shared App metadata. Clone and configure it independently, then demonstrate a bounded acquisition and saved-result read in the intended client. Verify renewal after known expiry. Record broader client compatibility separately rather than inferring it from these smoke tests.
+Verify independent public setup against the published snapshot and shared App metadata. Clone and configure it independently, then demonstrate a bounded acquisition and saved-result read in the intended client. Verify renewal after known expiry. Record broader client compatibility separately rather than inferring it from these smoke tests.

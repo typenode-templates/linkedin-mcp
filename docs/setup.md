@@ -4,7 +4,7 @@ The server is built and smoke-tested in a maintainer installation. This guide de
 
 ## Accounts and access
 
-Use your own Typenode Workspace and access to the hosted template when available. Normal billing/trial rules apply. The final activation URL is pending; these public contracts contain no Workflow implementation to assemble.
+Use your own Typenode Workspace and access to the hosted template when available. Normal billing/trial rules apply. Start from the [template page](https://typenode.ai/templates/linkedin-mcp); these public contracts contain no Workflow implementation to assemble.
 
 Use an Apify account with access to the selected providers and usable allowance/payment configuration. Configure its API token securely in Typenode using the supported credential/secret setup. Keep the token out of tool arguments, public files, prompts, receipts and error reports. Consult [Apify API integration guidance](https://docs.apify.com/integrations/api) for current authentication support.
 
