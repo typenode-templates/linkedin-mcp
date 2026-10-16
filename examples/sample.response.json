@@ -1,0 +1,52 @@
+{
+  "contract_version": "1.0",
+  "tool": "search_linkedin_people",
+  "status": "success",
+  "effective_request": {
+    "job_titles": [
+      "Head of Marketing"
+    ],
+    "max_cost_usd": 0.5
+  },
+  "sources": [],
+  "cost": {
+    "charges": [],
+    "max_authorized_usd": 0.5,
+    "scope_note": "Illustrative fixture: charge evidence unavailable; excludes Typenode usage."
+  },
+  "coverage": {
+    "source_items_read": 1,
+    "source_items_consumed": 1,
+    "returned_count": 1,
+    "source_total_matches": 1,
+    "collection_complete": true,
+    "source_exhausted": true,
+    "limited_by": [],
+    "notes": [
+      "Invented illustrative person, not a verified lead."
+    ]
+  },
+  "pagination": {
+    "page_size": 25,
+    "has_more": false,
+    "next_cursor": null,
+    "next_source_cursor": null,
+    "continuation_evidence": "dataset"
+  },
+  "error": null,
+  "receipts": [],
+  "records": [
+    {
+      "record_type": "person",
+      "source_data": {
+        "id": "example-profile",
+        "firstName": "Example",
+        "headline": "Marketing leader",
+        "positions": []
+      },
+      "linkedin_profile_url": "https://www.linkedin.com/in/example-person",
+      "linkedin_profile_id": "example-profile",
+      "match_terms_found": []
+    }
+  ]
+}

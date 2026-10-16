@@ -1,0 +1,8 @@
+{
+  "tool": "search_linkedin_people",
+  "arguments": {
+    "job_titles": [
+      "Head of Marketing"
+    ]
+  }
+}

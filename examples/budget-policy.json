@@ -1,0 +1,211 @@
+{
+  "evidence_type": "synthetic_design_expectations",
+  "note": "Illustrative owner configuration and runtime acceptance expectations, not executed policy tests or provider price guarantees. Authorize means budget resolution only; all other preflight guards still apply. Numbers are examples, not shipped defaults.",
+  "owner_configuration": {
+    "default_max_cost_usd": 0.5,
+    "hard_max_cost_usd": 2,
+    "allow_budget_override": false
+  },
+  "omitted_budget_call": {
+    "tool": "search_linkedin_people",
+    "arguments": {
+      "job_titles": [
+        "Head of Marketing"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "case": "omitted_request_uses_default",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {},
+      "expected": "authorize",
+      "resolved_max_cost_usd": 0.5
+    },
+    {
+      "case": "lower_request_allowed",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {
+        "max_cost_usd": 0.25
+      },
+      "expected": "authorize",
+      "resolved_max_cost_usd": 0.25
+    },
+    {
+      "case": "equal_default_allowed",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {
+        "max_cost_usd": 0.5
+      },
+      "expected": "authorize",
+      "resolved_max_cost_usd": 0.5
+    },
+    {
+      "case": "raise_disabled",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {
+        "max_cost_usd": 1
+      },
+      "expected": "reject_before_launch"
+    },
+    {
+      "case": "raise_enabled",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": true
+      },
+      "request": {
+        "max_cost_usd": 1
+      },
+      "expected": "authorize",
+      "resolved_max_cost_usd": 1
+    },
+    {
+      "case": "exact_hard_ceiling",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": true
+      },
+      "request": {
+        "max_cost_usd": 2
+      },
+      "expected": "authorize",
+      "resolved_max_cost_usd": 2
+    },
+    {
+      "case": "above_hard_ceiling",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": true
+      },
+      "request": {
+        "max_cost_usd": 2.01
+      },
+      "expected": "reject_before_launch"
+    },
+    {
+      "case": "owner_flag_omitted_defaults_false",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2
+      },
+      "request": {
+        "max_cost_usd": 1
+      },
+      "expected": "reject_before_launch"
+    },
+    {
+      "case": "missing_required_default",
+      "policy": {
+        "hard_max_cost_usd": 2
+      },
+      "request": {},
+      "expected": "reject_before_launch"
+    },
+    {
+      "case": "invalid_policy_default_above_ceiling",
+      "policy": {
+        "default_max_cost_usd": 3,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {},
+      "expected": "reject_before_launch"
+    },
+    {
+      "case": "zero_budget",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {
+        "max_cost_usd": 0
+      },
+      "expected": "reject_before_launch"
+    },
+    {
+      "case": "null_budget",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {
+        "max_cost_usd": null
+      },
+      "expected": "reject_before_launch"
+    },
+    {
+      "case": "provider_minimum_exceeds_budget",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {
+        "max_cost_usd": 0.01
+      },
+      "expected": "reject_before_launch",
+      "illustrative_provider_minimum_usd": 0.1
+    },
+    {
+      "case": "child_reservations_exceed_default",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {},
+      "expected": "reject_before_launch",
+      "child_reservations_usd": [
+        0.3,
+        0.3
+      ]
+    },
+    {
+      "case": "child_reservations_fit_default",
+      "policy": {
+        "default_max_cost_usd": 0.5,
+        "hard_max_cost_usd": 2,
+        "allow_budget_override": false
+      },
+      "request": {},
+      "expected": "authorize",
+      "child_reservations_usd": [
+        0.2,
+        0.3
+      ],
+      "resolved_max_cost_usd": 0.5
+    }
+  ],
+  "reader_expectation": {
+    "original_max_authorized_usd": 0.5,
+    "current_owner_configuration": {
+      "default_max_cost_usd": 0.25,
+      "hard_max_cost_usd": 1,
+      "allow_budget_override": false
+    },
+    "expected_max_authorized_usd": 0.5,
+    "note": "Existing-run reader retains original evidenced cap; unknown original authorization stays null. Reading never authorizes a new acquisition."
+  }
+}

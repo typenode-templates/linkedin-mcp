@@ -1,0 +1,260 @@
+{
+  "format": "typenode-mcp-reference-draft",
+  "format_version": "0.1",
+  "status": "built_reference_draft_activation_pending",
+  "slug": "linkedin-mcp",
+  "version": "0.1.0-draft",
+  "title": "LinkedIn Lead Discovery MCP",
+  "headline": "Discover companies, candidate people and LinkedIn research evidence in your AI client.",
+  "summary": "A 24-tool Typenode-hosted LinkedIn discovery suite using curated Apify scrapers, owner-controlled collection budgets and recoverable result paging.",
+  "description": "Search companies and people, inspect known profiles, retrieve jobs/posts/activity and collect independent account or post-engagement datasets. The AI client owns qualification and interpretation. No LinkedIn messages, connection requests, publishing, CRM writes or inferred intent.",
+  "license": "MIT",
+  "runtime": {
+    "platform": "typenode",
+    "hosting": "customer_workspace",
+    "standalone": false,
+    "availability": "tested_installation"
+  },
+  "distribution": {
+    "contents": "contracts_and_usage_documentation",
+    "implementation_included": false,
+    "activation": "through_typenode",
+    "public_activation_verified": false
+  },
+  "first_use_prompts": [
+    "Find candidate people matching a role and location I supply, using the configured default budget unless I supply a lower cap.",
+    "Given these website domains, find candidate LinkedIn company pages and leave ambiguous matches unresolved.",
+    "Read the next page of a previous collection without starting another scrape."
+  ],
+  "prerequisites": [
+    "Typenode Workspace with access to the hosted template when available; normal account/billing rules apply.",
+    "Customer-owned Apify account, usable billing/usage allowance and access to the selected providers.",
+    "Apify API token configured securely in Typenode with required collection and result-reading access.",
+    "AI client supporting an authenticated Typenode remote MCP endpoint.",
+    "Owner-configured default and hard USD caps; allow_budget_override defaults false. Explicit child budgets for selected batch/preset datasets."
+  ],
+  "applications": [
+    {
+      "application_slug": "apify",
+      "description": "Collect supported LinkedIn source data and read existing run/dataset evidence.",
+      "authentication_option_id": "api-token",
+      "required_scopes": [],
+      "setup_guidance": "docs/setup.md"
+    }
+  ],
+  "configuration_requirements": [
+    {
+      "key": "APIFY_TOKEN",
+      "kind": "api_token",
+      "required": true,
+      "description": "Secure Typenode configuration using the customer-owned Apify token. Required operations include starting qualified collections and reading run metadata, original input, pricing evidence and dataset items; configure supported permissions rather than assuming an empty scope list means unrestricted or no access."
+    },
+    {
+      "key": "default_max_cost_usd",
+      "kind": "environment_configuration",
+      "required": true,
+      "schema": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 10,
+        "description": "Required owner-selected per-invocation budget when max_cost_usd is omitted. No universal numeric default."
+      }
+    },
+    {
+      "key": "hard_max_cost_usd",
+      "kind": "environment_configuration",
+      "required": true,
+      "schema": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 10,
+        "description": "Required owner-selected absolute per-invocation ceiling, including all child acquisitions; cannot exceed this catalog's $10 bound."
+      }
+    },
+    {
+      "key": "allow_budget_override",
+      "kind": "environment_configuration",
+      "required": false,
+      "schema": {
+        "type": "boolean",
+        "default": false,
+        "description": "Owner-only permission to request a cap above the default, up to the hard ceiling. Lower request budgets are always allowed."
+      }
+    },
+    {
+      "key": "LINKEDIN_APIFY_CONTEXT",
+      "kind": "environment_configuration",
+      "required": true,
+      "description": "Fresh stable installation UUID; change when switching accounts."
+    },
+    {
+      "key": "LINKEDIN_APIFY_ACCOUNT_ID",
+      "kind": "environment_configuration",
+      "required": true,
+      "description": "Apify account ID verified through authenticated identity access."
+    }
+  ],
+  "configuration_schema": {
+    "title": "Owner-controlled acquisition budget policy",
+    "type": "object",
+    "description": "Installation configuration, never MCP tool arguments. Default must not exceed hard ceiling; validate this relation and finite values before paid work. Amounts exclude separately billed Typenode usage.",
+    "properties": {
+      "default_max_cost_usd": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 10,
+        "description": "Required owner-selected per-invocation budget when max_cost_usd is omitted. No universal numeric default."
+      },
+      "hard_max_cost_usd": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 10,
+        "description": "Required owner-selected absolute per-invocation ceiling, including all child acquisitions; cannot exceed this catalog's $10 bound."
+      },
+      "allow_budget_override": {
+        "type": "boolean",
+        "default": false,
+        "description": "Owner-only permission to request a cap above the default, up to the hard ceiling. Lower request budgets are always allowed."
+      }
+    },
+    "required": [
+      "default_max_cost_usd",
+      "hard_max_cost_usd"
+    ],
+    "additionalProperties": false
+  },
+  "budget_policy": {
+    "environment_variable": "LINKEDIN_BUDGET_POLICY",
+    "request_field": "max_cost_usd",
+    "scope": "per_invocation",
+    "owner_controlled": true,
+    "guide": "docs/budgets.md",
+    "numeric_defaults_supplied": false
+  },
+  "tools": [
+    {
+      "name": "find_linkedin_company_pages",
+      "contract": "tools/find_linkedin_company_pages.json"
+    },
+    {
+      "name": "get_linkedin_company_employee_counts",
+      "contract": "tools/get_linkedin_company_employee_counts.json"
+    },
+    {
+      "name": "search_linkedin_company_employees",
+      "contract": "tools/search_linkedin_company_employees.json"
+    },
+    {
+      "name": "search_linkedin_company_employees_shared",
+      "contract": "tools/search_linkedin_company_employees_shared.json"
+    },
+    {
+      "name": "get_linkedin_profile",
+      "contract": "tools/get_linkedin_profile.json"
+    },
+    {
+      "name": "get_linkedin_profiles",
+      "contract": "tools/get_linkedin_profiles.json"
+    },
+    {
+      "name": "search_linkedin_jobs",
+      "contract": "tools/search_linkedin_jobs.json"
+    },
+    {
+      "name": "list_linkedin_company_jobs",
+      "contract": "tools/list_linkedin_company_jobs.json"
+    },
+    {
+      "name": "get_linkedin_job",
+      "contract": "tools/get_linkedin_job.json"
+    },
+    {
+      "name": "search_linkedin_posts",
+      "contract": "tools/search_linkedin_posts.json"
+    },
+    {
+      "name": "get_linkedin_posts",
+      "contract": "tools/get_linkedin_posts.json"
+    },
+    {
+      "name": "list_linkedin_posts_by_profile",
+      "contract": "tools/list_linkedin_posts_by_profile.json"
+    },
+    {
+      "name": "list_linkedin_comments_by_profile",
+      "contract": "tools/list_linkedin_comments_by_profile.json"
+    },
+    {
+      "name": "list_linkedin_reactions_by_profile",
+      "contract": "tools/list_linkedin_reactions_by_profile.json"
+    },
+    {
+      "name": "list_linkedin_post_commenters",
+      "contract": "tools/list_linkedin_post_commenters.json"
+    },
+    {
+      "name": "list_linkedin_post_reactors",
+      "contract": "tools/list_linkedin_post_reactors.json"
+    },
+    {
+      "name": "search_linkedin_people",
+      "contract": "tools/search_linkedin_people.json"
+    },
+    {
+      "name": "search_linkedin_companies",
+      "contract": "tools/search_linkedin_companies.json"
+    },
+    {
+      "name": "get_linkedin_companies",
+      "contract": "tools/get_linkedin_companies.json"
+    },
+    {
+      "name": "list_linkedin_posts_by_company",
+      "contract": "tools/list_linkedin_posts_by_company.json"
+    },
+    {
+      "name": "search_linkedin_company_employees_batch",
+      "contract": "tools/search_linkedin_company_employees_batch.json"
+    },
+    {
+      "name": "get_linkedin_account_datasets",
+      "contract": "tools/get_linkedin_account_datasets.json"
+    },
+    {
+      "name": "get_linkedin_post_engagement_datasets",
+      "contract": "tools/get_linkedin_post_engagement_datasets.json"
+    },
+    {
+      "name": "read_linkedin_discovery_results",
+      "contract": "tools/read_linkedin_discovery_results.json"
+    }
+  ],
+  "mcp_server": {
+    "name": "LinkedIn Lead Discovery",
+    "description": "Bounded LinkedIn discovery and evidence retrieval through Apify; paid collections are distinct from reading existing results."
+  },
+  "guidance": {
+    "setup": "docs/setup.md",
+    "verification": "docs/verification.md",
+    "first_use": "prompts/getting-started.md",
+    "accounts": "prompts/account-research.md",
+    "engagement": "prompts/engagement-research.md",
+    "examples": "examples/README.md",
+    "budgets": "docs/budgets.md"
+  },
+  "success_criteria": [
+    "All 24 tools freshly discoverable through the intended client.",
+    "Every advertised tool has positive live evidence on the deployed public contract.",
+    "Invalid plans fail before paid starts; observed provider charge caps match authorisation.",
+    "Pending/run recovery and collected-result continuation do not silently repeat acquisitions.",
+    "Independent installation, client renewal and provider reconnect/revocation paths verified."
+  ],
+  "notes": [
+    "Built and tested in a maintainer installation; independent latest-snapshot customer installation remains unverified.",
+    "All 24 tools have live smoke evidence; this is not universal client or independent installation qualification.",
+    "Source access is read-only toward LinkedIn, but collections create Apify runs/datasets and can incur costs.",
+    "The qualified providers use the configured Apify token; no LinkedIn browser session is required by this template.",
+    "Application/authentication catalog identifiers are provisional.",
+    "Created by Typenode; not affiliated with or endorsed by LinkedIn or Apify."
+  ]
+}

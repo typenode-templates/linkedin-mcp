@@ -1,0 +1,1408 @@
+{
+  "name": "list_linkedin_post_commenters",
+  "title": "List LinkedIn Post Commenters",
+  "description": "List bounded comments and their authors for known posts. Retain comment text and thread identity; capped comments do not equal all commenters or all nested replies. Paid collection.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "max_cost_usd": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 10,
+        "description": "Optional per-invocation Apify charge cap. Omission uses owner default_max_cost_usd; a lower cap is allowed. Raising the default requires owner allow_budget_override=true and must stay within hard_max_cost_usd (catalog maximum $10). Reject disallowed or insufficient budgets before paid work; never clamp or increase them. Child reservations must fit the resolved total. Excludes separately billed Typenode usage; repeating acquisition can spend again."
+      },
+      "page_size": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "description": "Maximum normalized records returned now; reading remaining collected rows does not start another scrape.",
+        "default": 25
+      },
+      "linkedin_post_urls": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/post_url"
+        },
+        "minItems": 1,
+        "maxItems": 5,
+        "uniqueItems": true,
+        "description": "Known targets, each with an independent item allowance."
+      },
+      "limit_per_post": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 50,
+        "description": "Maximum acquired items PER target; target count × allowance must be at most 200.",
+        "default": 20
+      },
+      "match_terms": {
+        "$ref": "#/$defs/terms"
+      },
+      "linkedin_time_range": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300,
+        "description": "Native source recency selector; omit for no filter. It does not certify complete history.",
+        "enum": [
+          "24h",
+          "week",
+          "month",
+          "3months",
+          "6months",
+          "year"
+        ]
+      }
+    },
+    "required": [
+      "linkedin_post_urls"
+    ],
+    "additionalProperties": false,
+    "title": "List LinkedIn Post Commenters Input",
+    "$defs": {
+      "post_url": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048,
+        "description": "Known LinkedIn post URL; no query string, fragment or alternate host.",
+        "format": "uri"
+      },
+      "terms": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Case-insensitive literal substring to flag locally in available text; not sent to the actor."
+        },
+        "minItems": 0,
+        "maxItems": 20,
+        "uniqueItems": true,
+        "description": "Local term-hit evidence only; no relevance or purchase-intent score.",
+        "default": []
+      }
+    }
+  },
+  "outputSchema": {
+    "type": "object",
+    "oneOf": [
+      {
+        "type": "object",
+        "properties": {
+          "contract_version": {
+            "const": "1.0"
+          },
+          "tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Tool that assembled this packet.",
+            "enum": [
+              "find_linkedin_company_pages",
+              "get_linkedin_company_employee_counts",
+              "search_linkedin_company_employees",
+              "search_linkedin_company_employees_shared",
+              "get_linkedin_profile",
+              "get_linkedin_profiles",
+              "search_linkedin_jobs",
+              "list_linkedin_company_jobs",
+              "get_linkedin_job",
+              "search_linkedin_posts",
+              "get_linkedin_posts",
+              "list_linkedin_posts_by_profile",
+              "list_linkedin_comments_by_profile",
+              "list_linkedin_reactions_by_profile",
+              "list_linkedin_post_commenters",
+              "list_linkedin_post_reactors",
+              "search_linkedin_people",
+              "search_linkedin_companies",
+              "get_linkedin_companies",
+              "list_linkedin_posts_by_company",
+              "search_linkedin_company_employees_batch",
+              "get_linkedin_account_datasets",
+              "get_linkedin_post_engagement_datasets",
+              "read_linkedin_discovery_results"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Retrieval observation status, not workflow deployment state.",
+            "enum": [
+              "success"
+            ]
+          },
+          "effective_request": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Canonical safe request with resolved defaults; acquisitions include resolved max_cost_usd after valid budget resolution. Reader arguments do not acquire a new budget. Never credentials or private raw provider configuration."
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/source_observation"
+            },
+            "maxItems": 12
+          },
+          "cost": {
+            "$ref": "#/$defs/cost"
+          },
+          "coverage": {
+            "$ref": "#/$defs/coverage"
+          },
+          "pagination": {
+            "$ref": "#/$defs/pagination"
+          },
+          "error": {
+            "type": "null"
+          },
+          "receipts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/receipt"
+            },
+            "maxItems": 12
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/target_outcome"
+            },
+            "maxItems": 25
+          }
+        },
+        "required": [
+          "contract_version",
+          "tool",
+          "status",
+          "effective_request",
+          "sources",
+          "cost",
+          "coverage",
+          "pagination",
+          "error",
+          "receipts",
+          "targets"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "properties": {
+          "contract_version": {
+            "const": "1.0"
+          },
+          "tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Tool that assembled this packet.",
+            "enum": [
+              "find_linkedin_company_pages",
+              "get_linkedin_company_employee_counts",
+              "search_linkedin_company_employees",
+              "search_linkedin_company_employees_shared",
+              "get_linkedin_profile",
+              "get_linkedin_profiles",
+              "search_linkedin_jobs",
+              "list_linkedin_company_jobs",
+              "get_linkedin_job",
+              "search_linkedin_posts",
+              "get_linkedin_posts",
+              "list_linkedin_posts_by_profile",
+              "list_linkedin_comments_by_profile",
+              "list_linkedin_reactions_by_profile",
+              "list_linkedin_post_commenters",
+              "list_linkedin_post_reactors",
+              "search_linkedin_people",
+              "search_linkedin_companies",
+              "get_linkedin_companies",
+              "list_linkedin_posts_by_company",
+              "search_linkedin_company_employees_batch",
+              "get_linkedin_account_datasets",
+              "get_linkedin_post_engagement_datasets",
+              "read_linkedin_discovery_results"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Retrieval observation status, not workflow deployment state.",
+            "enum": [
+              "empty"
+            ]
+          },
+          "effective_request": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Canonical safe request with resolved defaults; acquisitions include resolved max_cost_usd after valid budget resolution. Reader arguments do not acquire a new budget. Never credentials or private raw provider configuration."
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/source_observation"
+            },
+            "maxItems": 12
+          },
+          "cost": {
+            "$ref": "#/$defs/cost"
+          },
+          "coverage": {
+            "$ref": "#/$defs/coverage"
+          },
+          "pagination": {
+            "$ref": "#/$defs/pagination"
+          },
+          "error": {
+            "type": "null"
+          },
+          "receipts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/receipt"
+            },
+            "maxItems": 12
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/target_outcome"
+            },
+            "maxItems": 25
+          }
+        },
+        "required": [
+          "contract_version",
+          "tool",
+          "status",
+          "effective_request",
+          "sources",
+          "cost",
+          "coverage",
+          "pagination",
+          "error",
+          "receipts",
+          "targets"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "properties": {
+          "contract_version": {
+            "const": "1.0"
+          },
+          "tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Tool that assembled this packet.",
+            "enum": [
+              "find_linkedin_company_pages",
+              "get_linkedin_company_employee_counts",
+              "search_linkedin_company_employees",
+              "search_linkedin_company_employees_shared",
+              "get_linkedin_profile",
+              "get_linkedin_profiles",
+              "search_linkedin_jobs",
+              "list_linkedin_company_jobs",
+              "get_linkedin_job",
+              "search_linkedin_posts",
+              "get_linkedin_posts",
+              "list_linkedin_posts_by_profile",
+              "list_linkedin_comments_by_profile",
+              "list_linkedin_reactions_by_profile",
+              "list_linkedin_post_commenters",
+              "list_linkedin_post_reactors",
+              "search_linkedin_people",
+              "search_linkedin_companies",
+              "get_linkedin_companies",
+              "list_linkedin_posts_by_company",
+              "search_linkedin_company_employees_batch",
+              "get_linkedin_account_datasets",
+              "get_linkedin_post_engagement_datasets",
+              "read_linkedin_discovery_results"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Retrieval observation status, not workflow deployment state.",
+            "enum": [
+              "partial"
+            ]
+          },
+          "effective_request": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Canonical safe request with resolved defaults; acquisitions include resolved max_cost_usd after valid budget resolution. Reader arguments do not acquire a new budget. Never credentials or private raw provider configuration."
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/source_observation"
+            },
+            "maxItems": 12
+          },
+          "cost": {
+            "$ref": "#/$defs/cost"
+          },
+          "coverage": {
+            "$ref": "#/$defs/coverage"
+          },
+          "pagination": {
+            "$ref": "#/$defs/pagination"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/error"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "receipts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/receipt"
+            },
+            "maxItems": 12
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/target_outcome"
+            },
+            "maxItems": 25
+          }
+        },
+        "required": [
+          "contract_version",
+          "tool",
+          "status",
+          "effective_request",
+          "sources",
+          "cost",
+          "coverage",
+          "pagination",
+          "error",
+          "receipts",
+          "targets"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "properties": {
+          "contract_version": {
+            "const": "1.0"
+          },
+          "tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Tool that assembled this packet.",
+            "enum": [
+              "find_linkedin_company_pages",
+              "get_linkedin_company_employee_counts",
+              "search_linkedin_company_employees",
+              "search_linkedin_company_employees_shared",
+              "get_linkedin_profile",
+              "get_linkedin_profiles",
+              "search_linkedin_jobs",
+              "list_linkedin_company_jobs",
+              "get_linkedin_job",
+              "search_linkedin_posts",
+              "get_linkedin_posts",
+              "list_linkedin_posts_by_profile",
+              "list_linkedin_comments_by_profile",
+              "list_linkedin_reactions_by_profile",
+              "list_linkedin_post_commenters",
+              "list_linkedin_post_reactors",
+              "search_linkedin_people",
+              "search_linkedin_companies",
+              "get_linkedin_companies",
+              "list_linkedin_posts_by_company",
+              "search_linkedin_company_employees_batch",
+              "get_linkedin_account_datasets",
+              "get_linkedin_post_engagement_datasets",
+              "read_linkedin_discovery_results"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Retrieval observation status, not workflow deployment state.",
+            "enum": [
+              "pending"
+            ]
+          },
+          "effective_request": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Canonical safe request with resolved defaults; acquisitions include resolved max_cost_usd after valid budget resolution. Reader arguments do not acquire a new budget. Never credentials or private raw provider configuration."
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/source_observation"
+            },
+            "maxItems": 12
+          },
+          "cost": {
+            "$ref": "#/$defs/cost"
+          },
+          "coverage": {
+            "$ref": "#/$defs/coverage"
+          },
+          "pagination": {
+            "$ref": "#/$defs/pagination"
+          },
+          "error": {
+            "type": "null"
+          },
+          "receipts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/receipt"
+            },
+            "maxItems": 12
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/target_outcome"
+            },
+            "maxItems": 25
+          }
+        },
+        "required": [
+          "contract_version",
+          "tool",
+          "status",
+          "effective_request",
+          "sources",
+          "cost",
+          "coverage",
+          "pagination",
+          "error",
+          "receipts",
+          "targets"
+        ],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "properties": {
+          "contract_version": {
+            "const": "1.0"
+          },
+          "tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Tool that assembled this packet.",
+            "enum": [
+              "find_linkedin_company_pages",
+              "get_linkedin_company_employee_counts",
+              "search_linkedin_company_employees",
+              "search_linkedin_company_employees_shared",
+              "get_linkedin_profile",
+              "get_linkedin_profiles",
+              "search_linkedin_jobs",
+              "list_linkedin_company_jobs",
+              "get_linkedin_job",
+              "search_linkedin_posts",
+              "get_linkedin_posts",
+              "list_linkedin_posts_by_profile",
+              "list_linkedin_comments_by_profile",
+              "list_linkedin_reactions_by_profile",
+              "list_linkedin_post_commenters",
+              "list_linkedin_post_reactors",
+              "search_linkedin_people",
+              "search_linkedin_companies",
+              "get_linkedin_companies",
+              "list_linkedin_posts_by_company",
+              "search_linkedin_company_employees_batch",
+              "get_linkedin_account_datasets",
+              "get_linkedin_post_engagement_datasets",
+              "read_linkedin_discovery_results"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Retrieval observation status, not workflow deployment state.",
+            "enum": [
+              "error"
+            ]
+          },
+          "effective_request": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Canonical safe request with resolved defaults; acquisitions include resolved max_cost_usd after valid budget resolution. Reader arguments do not acquire a new budget. Never credentials or private raw provider configuration."
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/source_observation"
+            },
+            "maxItems": 12
+          },
+          "cost": {
+            "$ref": "#/$defs/cost"
+          },
+          "coverage": {
+            "$ref": "#/$defs/coverage"
+          },
+          "pagination": {
+            "$ref": "#/$defs/pagination"
+          },
+          "error": {
+            "$ref": "#/$defs/error"
+          },
+          "receipts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/receipt"
+            },
+            "maxItems": 12
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/target_outcome"
+            },
+            "maxItems": 25
+          }
+        },
+        "required": [
+          "contract_version",
+          "tool",
+          "status",
+          "effective_request",
+          "sources",
+          "cost",
+          "coverage",
+          "pagination",
+          "error",
+          "receipts",
+          "targets"
+        ],
+        "additionalProperties": false
+      }
+    ],
+    "$defs": {
+      "source_observation": {
+        "type": "object",
+        "properties": {
+          "actor": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Allowlisted actor name."
+          },
+          "build_number": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "description": "Observed implementation build."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "apify_run_id": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/run_id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider_status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100,
+                "description": "Native run status; unknown enums preserved."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "retrieved_at": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "When this result observation was assembled.",
+            "format": "date-time"
+          },
+          "source_updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "description": "Source-supplied freshness time; null when absent.",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "actor",
+          "build_number",
+          "apify_run_id",
+          "provider_status",
+          "retrieved_at",
+          "source_updated_at"
+        ],
+        "additionalProperties": false
+      },
+      "run_id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "description": "Apify run ID returned by a collection receipt; never a dataset ID or access token.",
+        "pattern": "^[A-Za-z0-9]+$"
+      },
+      "cost": {
+        "type": "object",
+        "properties": {
+          "charges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/charge"
+            },
+            "maxItems": 50
+          },
+          "max_authorized_usd": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Resolved acquisition authorization, not observed spend. Existing-run reads preserve the original evidenced acquisition cap (or null if unavailable), never apply current installation defaults to historical runs. Null also covers pre-resolution rejection."
+          },
+          "scope_note": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "Apify charges; excludes separately billed Typenode usage. Multiple evidence levels are alternatives, not additional spend."
+          }
+        },
+        "required": [
+          "charges",
+          "max_authorized_usd",
+          "scope_note"
+        ],
+        "additionalProperties": false
+      },
+      "charge": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "const": "apify"
+          },
+          "meter": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "Source billing meter or explicitly identified estimated meter."
+          },
+          "unit": {
+            "const": "USD"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Amount evidence; success does not prove settlement.",
+            "enum": [
+              "estimated",
+              "provider_reported",
+              "settled",
+              "unknown"
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Cumulative run observation or independently attributable invocation amount.",
+            "enum": [
+              "provider_run",
+              "invocation"
+            ]
+          },
+          "reference_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "Stable run or invocation reference; null when unavailable."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "observed_at": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "Observation time, not source freshness.",
+            "format": "date-time"
+          },
+          "basis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "Rate schedule/tier/date or uncertainty reason. Never include credential values."
+          }
+        },
+        "required": [
+          "provider",
+          "meter",
+          "unit",
+          "amount",
+          "evidence",
+          "scope",
+          "reference_id",
+          "observed_at",
+          "basis"
+        ],
+        "additionalProperties": false
+      },
+      "coverage": {
+        "type": "object",
+        "properties": {
+          "source_items_read": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "description": "Source rows read for this observation."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_items_consumed": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "description": "Source rows consumed, including local nonmatches."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "returned_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 200,
+            "description": "Rows in this packet; not a charge or market size."
+          },
+          "source_total_matches": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "description": "Reported source-query total, not an inferred count."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "collection_complete": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_exhausted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limited_by": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300,
+              "description": "Reason this observed dataset may be incomplete.",
+              "enum": [
+                "requested_limit",
+                "source_page_limit",
+                "source_cap",
+                "budget",
+                "provider_failure",
+                "packet_bytes",
+                "unsupported_source_continuation",
+                "unknown_source_total"
+              ]
+            },
+            "minItems": 0,
+            "maxItems": 8,
+            "uniqueItems": true,
+            "description": "Explicit collection boundaries; [] does not prove LinkedIn completeness."
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500,
+              "description": "Bounded evidence note."
+            },
+            "maxItems": 10
+          }
+        },
+        "required": [
+          "source_items_read",
+          "source_items_consumed",
+          "returned_count",
+          "source_total_matches",
+          "collection_complete",
+          "source_exhausted",
+          "limited_by",
+          "notes"
+        ],
+        "additionalProperties": false
+      },
+      "pagination": {
+        "type": "object",
+        "properties": {
+          "page_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Effective result packet allowance."
+          },
+          "has_more": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/cursor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "next_source_cursor": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/source_cursor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "continuation_evidence": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Dataset paging is distinct from new paid source work.",
+            "enum": [
+              "dataset",
+              "source_confirmed",
+              "source_probe",
+              "unsupported",
+              "unknown"
+            ]
+          }
+        },
+        "required": [
+          "page_size",
+          "has_more",
+          "next_cursor",
+          "next_source_cursor",
+          "continuation_evidence"
+        ],
+        "additionalProperties": false
+      },
+      "cursor": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 8192,
+        "description": "Opaque result continuation; binds run, source tool, dataset selection, page size and configured provider identity. It grants no authorization."
+      },
+      "source_cursor": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 8192,
+        "description": "Opaque continuation for a NEW paid source collection. Requires the same search/filter recipe and a freshly resolved cap under owner budget policy (optional max_cost_usd); never use a stored-result cursor here."
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Actionable wrapper category.",
+            "enum": [
+              "invalid_input",
+              "invalid_cursor",
+              "cursor_request_mismatch",
+              "budget_too_small",
+              "pricing_unavailable",
+              "apify_authentication_required",
+              "apify_access_denied",
+              "provider_rate_limited",
+              "provider_unavailable",
+              "target_unavailable",
+              "unexpected_source_response",
+              "record_too_large",
+              "submission_unknown",
+              "run_not_allowed",
+              "unsupported_filter",
+              "unsupported_source_continuation"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "Trusted bounded description."
+          },
+          "next_action": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "Concrete correction or existing-run recovery. Never ask to retry an ambiguous paid submission blindly."
+          },
+          "retry_after_seconds": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 86400,
+                "description": "Provider-reported wait, when present."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "next_action",
+          "retry_after_seconds"
+        ],
+        "additionalProperties": false
+      },
+      "receipt": {
+        "type": "object",
+        "properties": {
+          "source_tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Primitive normalization adapter.",
+            "enum": [
+              "find_linkedin_company_pages",
+              "get_linkedin_company_employee_counts",
+              "search_linkedin_company_employees",
+              "search_linkedin_company_employees_shared",
+              "get_linkedin_profile",
+              "get_linkedin_profiles",
+              "search_linkedin_jobs",
+              "list_linkedin_company_jobs",
+              "get_linkedin_job",
+              "search_linkedin_posts",
+              "get_linkedin_posts",
+              "list_linkedin_posts_by_profile",
+              "list_linkedin_comments_by_profile",
+              "list_linkedin_reactions_by_profile",
+              "list_linkedin_post_commenters",
+              "list_linkedin_post_reactors",
+              "search_linkedin_people",
+              "search_linkedin_companies",
+              "get_linkedin_companies",
+              "list_linkedin_posts_by_company"
+            ]
+          },
+          "apify_run_id": {
+            "$ref": "#/$defs/run_id"
+          },
+          "dataset_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048,
+                "description": "Target dataset identity, when applicable."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "read_arguments": {
+            "$ref": "#/$defs/read_linkedin_discovery_results_input"
+          }
+        },
+        "required": [
+          "source_tool",
+          "apify_run_id",
+          "dataset_key",
+          "read_arguments"
+        ],
+        "additionalProperties": false
+      },
+      "read_linkedin_discovery_results_input": {
+        "type": "object",
+        "properties": {
+          "source_tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Original primitive adapter; bundle results expose individual child-adapter receipts.",
+            "enum": [
+              "find_linkedin_company_pages",
+              "get_linkedin_company_employee_counts",
+              "search_linkedin_company_employees",
+              "search_linkedin_company_employees_shared",
+              "get_linkedin_profile",
+              "get_linkedin_profiles",
+              "search_linkedin_jobs",
+              "list_linkedin_company_jobs",
+              "get_linkedin_job",
+              "search_linkedin_posts",
+              "get_linkedin_posts",
+              "list_linkedin_posts_by_profile",
+              "list_linkedin_comments_by_profile",
+              "list_linkedin_reactions_by_profile",
+              "list_linkedin_post_commenters",
+              "list_linkedin_post_reactors",
+              "search_linkedin_people",
+              "search_linkedin_companies",
+              "get_linkedin_companies",
+              "list_linkedin_posts_by_company"
+            ]
+          },
+          "apify_run_id": {
+            "$ref": "#/$defs/run_id"
+          },
+          "dataset_key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Exact target/section dataset key from a receipt; omission reads the whole primitive output where supported."
+          },
+          "page_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Maximum normalized records returned now; reading remaining collected rows does not start another scrape.",
+            "default": 25
+          },
+          "cursor": {
+            "$ref": "#/$defs/cursor"
+          }
+        },
+        "required": [
+          "source_tool",
+          "apify_run_id"
+        ],
+        "additionalProperties": false,
+        "title": "Read LinkedIn Discovery Results Input"
+      },
+      "target_outcome": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Exact requested target, never omit missing input subjects."
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Per-target acquisition evidence; an omitted capped target is unresolved, not not_found.",
+            "enum": [
+              "found",
+              "not_found",
+              "unresolved",
+              "error",
+              "not_attempted",
+              "pending"
+            ]
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/record"
+            },
+            "maxItems": 100
+          },
+          "coverage": {
+            "$ref": "#/$defs/coverage"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/error"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "receipts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/receipt"
+            },
+            "maxItems": 4
+          }
+        },
+        "required": [
+          "target",
+          "status",
+          "records",
+          "coverage",
+          "error",
+          "receipts"
+        ],
+        "additionalProperties": false
+      },
+      "record": {
+        "type": "object",
+        "properties": {
+          "record_type": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "description": "Normalized entity kind.",
+            "enum": [
+              "company",
+              "employee_count",
+              "person",
+              "job",
+              "post",
+              "comment",
+              "reaction"
+            ]
+          },
+          "source_data": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Validated provider record preserving unknown native fields and native scalar representations."
+          },
+          "linkedin_company_id": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/numeric_id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "linkedin_company_url": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/company_url"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "linkedin_profile_url": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/profile_url"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "linkedin_profile_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "description": "Provider-reported LinkedIn profile/member identity; namespace preserved."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "linkedin_job_id": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/numeric_id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "linkedin_post_url": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/post_url"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "linkedin_comment_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512,
+                "description": "Source comment identity; preserve its native namespace."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "linkedin_employee_count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991,
+                "description": "Observed LinkedIn-associated count, never payroll headcount."
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "match_terms_found": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "description": "Matched literal term."
+            },
+            "minItems": 0,
+            "maxItems": 20,
+            "uniqueItems": true,
+            "description": "Mechanical substring matches in available source text only."
+          }
+        },
+        "required": [
+          "record_type",
+          "source_data"
+        ],
+        "additionalProperties": false
+      },
+      "numeric_id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 32,
+        "description": "Native LinkedIn numeric ID as a decimal string, not a URL or CRM record ID.",
+        "pattern": "^[1-9][0-9]*$"
+      },
+      "company_url": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048,
+        "description": "Known LinkedIn company page URL; website domains and company names are not accepted.",
+        "format": "uri",
+        "pattern": "^https://(?:www\\.)?linkedin\\.com/company/[^/?#]+/?$"
+      },
+      "profile_url": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048,
+        "description": "LinkedIn person URL, including public or encoded identifiers. An encoded URL is not a public slug.",
+        "format": "uri",
+        "pattern": "^https://(?:www\\.)?linkedin\\.com/in/[^/?#]+/?$"
+      },
+      "post_url": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048,
+        "description": "Known LinkedIn post URL; no query string, fragment or alternate host.",
+        "format": "uri",
+        "pattern": "^https://(?:www\\.)?linkedin\\.com/(?:posts/[^/?#]+|feed/update/urn:li:(?:activity|share|ugcPost):[0-9]+)/?$"
+      }
+    }
+  },
+  "annotations": {
+    "readOnlyHint": false,
+    "destructiveHint": false,
+    "idempotentHint": false,
+    "openWorldHint": true
+  }
+}

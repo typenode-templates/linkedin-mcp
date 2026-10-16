@@ -1,0 +1,342 @@
+{
+  "evidence_type": "synthetic",
+  "note": "Invented identifiers and values; synthetic contract fixtures, not captured provider results or price quotes.",
+  "result_shapes": {
+    "collection_output": {
+      "contract_version": "1.0",
+      "tool": "search_linkedin_people",
+      "status": "empty",
+      "effective_request": {
+        "job_titles": [
+          "Head of Marketing"
+        ],
+        "max_cost_usd": 0.5
+      },
+      "sources": [],
+      "cost": {
+        "charges": [],
+        "max_authorized_usd": 0.5,
+        "scope_note": "Illustrative fixture: charge evidence unavailable; excludes Typenode usage."
+      },
+      "coverage": {
+        "source_items_read": 0,
+        "source_items_consumed": 0,
+        "returned_count": 0,
+        "source_total_matches": null,
+        "collection_complete": true,
+        "source_exhausted": null,
+        "limited_by": [
+          "unknown_source_total"
+        ],
+        "notes": [
+          "Illustrative empty source query; not evidence of no eligible people on LinkedIn."
+        ]
+      },
+      "pagination": {
+        "page_size": 25,
+        "has_more": false,
+        "next_cursor": null,
+        "next_source_cursor": null,
+        "continuation_evidence": "dataset"
+      },
+      "error": null,
+      "receipts": [],
+      "records": []
+    },
+    "single_output": {
+      "contract_version": "1.0",
+      "tool": "get_linkedin_profile",
+      "status": "empty",
+      "effective_request": {
+        "job_titles": [
+          "Head of Marketing"
+        ],
+        "max_cost_usd": 0.5
+      },
+      "sources": [],
+      "cost": {
+        "charges": [],
+        "max_authorized_usd": 0.5,
+        "scope_note": "Illustrative fixture: charge evidence unavailable; excludes Typenode usage."
+      },
+      "coverage": {
+        "source_items_read": 0,
+        "source_items_consumed": 0,
+        "returned_count": 0,
+        "source_total_matches": null,
+        "collection_complete": true,
+        "source_exhausted": null,
+        "limited_by": [
+          "unknown_source_total"
+        ],
+        "notes": [
+          "Illustrative empty source query; not evidence of no eligible people on LinkedIn."
+        ]
+      },
+      "pagination": {
+        "page_size": 25,
+        "has_more": false,
+        "next_cursor": null,
+        "next_source_cursor": null,
+        "continuation_evidence": "dataset"
+      },
+      "error": null,
+      "receipts": [],
+      "target": {
+        "target": "https://www.linkedin.com/in/example-person",
+        "status": "not_found",
+        "records": [],
+        "coverage": {
+          "source_items_read": 0,
+          "source_items_consumed": 0,
+          "returned_count": 0,
+          "source_total_matches": null,
+          "collection_complete": true,
+          "source_exhausted": null,
+          "limited_by": [
+            "unknown_source_total"
+          ],
+          "notes": [
+            "Illustrative empty source query; not evidence of no eligible people on LinkedIn."
+          ]
+        },
+        "error": null,
+        "receipts": []
+      }
+    },
+    "batch_output": {
+      "contract_version": "1.0",
+      "tool": "get_linkedin_profiles",
+      "status": "partial",
+      "effective_request": {
+        "job_titles": [
+          "Head of Marketing"
+        ],
+        "max_cost_usd": 0.5
+      },
+      "sources": [],
+      "cost": {
+        "charges": [],
+        "max_authorized_usd": 0.5,
+        "scope_note": "Illustrative fixture: charge evidence unavailable; excludes Typenode usage."
+      },
+      "coverage": {
+        "source_items_read": 0,
+        "source_items_consumed": 0,
+        "returned_count": 0,
+        "source_total_matches": null,
+        "collection_complete": true,
+        "source_exhausted": null,
+        "limited_by": [
+          "unknown_source_total"
+        ],
+        "notes": [
+          "Illustrative empty source query; not evidence of no eligible people on LinkedIn."
+        ]
+      },
+      "pagination": {
+        "page_size": 25,
+        "has_more": false,
+        "next_cursor": null,
+        "next_source_cursor": null,
+        "continuation_evidence": "dataset"
+      },
+      "error": null,
+      "receipts": [],
+      "targets": [
+        {
+          "target": "https://www.linkedin.com/in/example-person",
+          "status": "unresolved",
+          "records": [],
+          "coverage": {
+            "source_items_read": 0,
+            "source_items_consumed": 0,
+            "returned_count": 0,
+            "source_total_matches": null,
+            "collection_complete": true,
+            "source_exhausted": null,
+            "limited_by": [
+              "unknown_source_total"
+            ],
+            "notes": [
+              "Illustrative empty source query; not evidence of no eligible people on LinkedIn."
+            ]
+          },
+          "error": null,
+          "receipts": []
+        }
+      ]
+    },
+    "bundle_output": {
+      "contract_version": "1.0",
+      "tool": "get_linkedin_account_datasets",
+      "status": "partial",
+      "effective_request": {
+        "job_titles": [
+          "Head of Marketing"
+        ],
+        "max_cost_usd": 0.5
+      },
+      "sources": [],
+      "cost": {
+        "charges": [],
+        "max_authorized_usd": 0.5,
+        "scope_note": "Illustrative fixture: charge evidence unavailable; excludes Typenode usage."
+      },
+      "coverage": {
+        "source_items_read": 0,
+        "source_items_consumed": 0,
+        "returned_count": 0,
+        "source_total_matches": null,
+        "collection_complete": true,
+        "source_exhausted": null,
+        "limited_by": [
+          "unknown_source_total"
+        ],
+        "notes": [
+          "Illustrative empty source query; not evidence of no eligible people on LinkedIn."
+        ]
+      },
+      "pagination": {
+        "page_size": 25,
+        "has_more": false,
+        "next_cursor": null,
+        "next_source_cursor": null,
+        "continuation_evidence": "dataset"
+      },
+      "error": null,
+      "receipts": [],
+      "datasets": [
+        {
+          "dataset_key": "https://www.linkedin.com/company/example-software#employees",
+          "target": "https://www.linkedin.com/company/example-software",
+          "section": "employees",
+          "status": "empty",
+          "records": [],
+          "sources": [],
+          "coverage": {
+            "source_items_read": 0,
+            "source_items_consumed": 0,
+            "returned_count": 0,
+            "source_total_matches": null,
+            "collection_complete": true,
+            "source_exhausted": null,
+            "limited_by": [
+              "unknown_source_total"
+            ],
+            "notes": [
+              "Illustrative empty source query; not evidence of no eligible people on LinkedIn."
+            ]
+          },
+          "pagination": {
+            "page_size": 25,
+            "has_more": false,
+            "next_cursor": null,
+            "next_source_cursor": null,
+            "continuation_evidence": "dataset"
+          },
+          "error": null,
+          "receipts": [],
+          "effective_request": {}
+        }
+      ]
+    },
+    "reader_output": {
+      "contract_version": "1.0",
+      "tool": "read_linkedin_discovery_results",
+      "status": "pending",
+      "effective_request": {
+        "job_titles": [
+          "Head of Marketing"
+        ],
+        "max_cost_usd": 0.5
+      },
+      "sources": [],
+      "cost": {
+        "charges": [],
+        "max_authorized_usd": 0.5,
+        "scope_note": "Illustrative fixture: charge evidence unavailable; $0.50 is the original evidenced acquisition authorization, not a current policy default or new spend. Excludes Typenode usage."
+      },
+      "coverage": {
+        "source_items_read": 0,
+        "source_items_consumed": 0,
+        "returned_count": 0,
+        "source_total_matches": null,
+        "collection_complete": false,
+        "source_exhausted": null,
+        "limited_by": [
+          "unknown_source_total"
+        ],
+        "notes": [
+          "Illustrative empty source query; not evidence of no eligible people on LinkedIn."
+        ]
+      },
+      "pagination": {
+        "page_size": 25,
+        "has_more": null,
+        "next_cursor": null,
+        "next_source_cursor": null,
+        "continuation_evidence": "dataset"
+      },
+      "error": null,
+      "receipts": [
+        {
+          "source_tool": "search_linkedin_people",
+          "apify_run_id": "ExampleRun12345678",
+          "dataset_key": null,
+          "read_arguments": {
+            "source_tool": "search_linkedin_people",
+            "apify_run_id": "ExampleRun12345678"
+          }
+        }
+      ],
+      "records": []
+    }
+  },
+  "handled_error_result": {
+    "contract_version": "1.0",
+    "tool": "search_linkedin_people",
+    "status": "error",
+    "effective_request": {
+      "job_titles": [
+        "Head of Marketing"
+      ],
+      "max_cost_usd": 0.5
+    },
+    "sources": [],
+    "cost": {
+      "charges": [],
+      "max_authorized_usd": 0.5,
+      "scope_note": "Illustrative fixture: charge evidence unavailable; excludes Typenode usage."
+    },
+    "coverage": {
+      "source_items_read": 0,
+      "source_items_consumed": 0,
+      "returned_count": 0,
+      "source_total_matches": null,
+      "collection_complete": false,
+      "source_exhausted": null,
+      "limited_by": [
+        "unknown_source_total"
+      ],
+      "notes": [
+        "Illustrative empty source query; not evidence of no eligible people on LinkedIn."
+      ]
+    },
+    "pagination": {
+      "page_size": 25,
+      "has_more": false,
+      "next_cursor": null,
+      "next_source_cursor": null,
+      "continuation_evidence": "dataset"
+    },
+    "error": {
+      "code": "budget_too_small",
+      "message": "Budget does not cover the planned page charge.",
+      "next_action": "Reduce max_source_pages or explicitly authorize a sufficient maximum.",
+      "retry_after_seconds": null
+    },
+    "receipts": [],
+    "records": []
+  }
+}

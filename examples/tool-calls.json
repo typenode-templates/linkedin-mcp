@@ -1,0 +1,249 @@
+{
+  "evidence_type": "synthetic",
+  "note": "Invented identifiers and values; synthetic contract fixtures, not captured provider results or price quotes.",
+  "tool_calls": [
+    {
+      "tool": "find_linkedin_company_pages",
+      "arguments": {
+        "website_domains": [
+          "example.com"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "get_linkedin_company_employee_counts",
+      "arguments": {
+        "linkedin_company_urls": [
+          "https://www.linkedin.com/company/example-software"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "search_linkedin_company_employees",
+      "arguments": {
+        "linkedin_company_url": "https://www.linkedin.com/company/example-software",
+        "job_titles": [
+          "Marketing"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "search_linkedin_company_employees_shared",
+      "arguments": {
+        "linkedin_company_urls": [
+          "https://www.linkedin.com/company/example-software",
+          "https://www.linkedin.com/company/example-software-two"
+        ],
+        "job_titles": [
+          "Marketing"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "get_linkedin_profile",
+      "arguments": {
+        "linkedin_profile_url": "https://www.linkedin.com/in/example-person",
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "get_linkedin_profiles",
+      "arguments": {
+        "linkedin_profile_urls": [
+          "https://www.linkedin.com/in/example-person"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "search_linkedin_jobs",
+      "arguments": {
+        "query": "marketing operations",
+        "location": "Germany",
+        "linkedin_posted_within_days": 7,
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "list_linkedin_company_jobs",
+      "arguments": {
+        "linkedin_company_id": "123456789",
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "get_linkedin_job",
+      "arguments": {
+        "linkedin_job_id": "123456789",
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "search_linkedin_posts",
+      "arguments": {
+        "query": "\"marketing operations\"",
+        "match_terms": [
+          "marketing operations"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "get_linkedin_posts",
+      "arguments": {
+        "linkedin_post_urls": [
+          "https://www.linkedin.com/posts/example-person_example-activity-1234567890123456789-abcd"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "list_linkedin_posts_by_profile",
+      "arguments": {
+        "linkedin_profile_urls": [
+          "https://www.linkedin.com/in/example-person"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "list_linkedin_comments_by_profile",
+      "arguments": {
+        "linkedin_profile_urls": [
+          "https://www.linkedin.com/in/example-person"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "list_linkedin_reactions_by_profile",
+      "arguments": {
+        "linkedin_profile_urls": [
+          "https://www.linkedin.com/in/example-person"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "list_linkedin_post_commenters",
+      "arguments": {
+        "linkedin_post_urls": [
+          "https://www.linkedin.com/posts/example-person_example-activity-1234567890123456789-abcd"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "list_linkedin_post_reactors",
+      "arguments": {
+        "linkedin_post_urls": [
+          "https://www.linkedin.com/posts/example-person_example-activity-1234567890123456789-abcd"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "search_linkedin_people",
+      "arguments": {
+        "job_titles": [
+          "Head of Marketing"
+        ],
+        "locations": [
+          "Germany"
+        ],
+        "linkedin_industry_ids": [
+          "4"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "search_linkedin_companies",
+      "arguments": {
+        "query": "software",
+        "locations": [
+          "Germany"
+        ],
+        "company_size_ranges": [
+          "51_200"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "get_linkedin_companies",
+      "arguments": {
+        "linkedin_company_urls": [
+          "https://www.linkedin.com/company/example-software"
+        ],
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "list_linkedin_posts_by_company",
+      "arguments": {
+        "linkedin_company_urls": [
+          "https://www.linkedin.com/company/example-software"
+        ],
+        "limit_per_company": 10,
+        "max_cost_usd": 0.5
+      }
+    },
+    {
+      "tool": "search_linkedin_company_employees_batch",
+      "arguments": {
+        "companies": [
+          {
+            "linkedin_company_url": "https://www.linkedin.com/company/example-software",
+            "max_cost_usd": 0.05
+          }
+        ],
+        "limit_per_company": 10,
+        "max_cost_usd": 0.05
+      }
+    },
+    {
+      "tool": "get_linkedin_account_datasets",
+      "arguments": {
+        "accounts": [
+          {
+            "linkedin_company_url": "https://www.linkedin.com/company/example-software",
+            "employees_max_cost_usd": 0.05
+          }
+        ],
+        "sections": [
+          "employees"
+        ],
+        "company_facts_max_cost_usd": 0.01,
+        "max_cost_usd": 0.06
+      }
+    },
+    {
+      "tool": "get_linkedin_post_engagement_datasets",
+      "arguments": {
+        "linkedin_post_urls": [
+          "https://www.linkedin.com/posts/example-person_example-activity-1234567890123456789-abcd"
+        ],
+        "sections": [
+          "comments",
+          "reactions"
+        ],
+        "post_details_max_cost_usd": 0.01,
+        "comments_max_cost_usd": 0.05,
+        "reactions_max_cost_usd": 0.05,
+        "max_cost_usd": 0.11
+      }
+    },
+    {
+      "tool": "read_linkedin_discovery_results",
+      "arguments": {
+        "source_tool": "search_linkedin_people",
+        "apify_run_id": "ExampleRun12345678"
+      }
+    }
+  ]
+}
