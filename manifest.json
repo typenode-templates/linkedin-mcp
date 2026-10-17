@@ -35,8 +35,15 @@
   ],
   "applications": [
     {
+      "application_slug": "linkedin",
+      "description": "Source platform for people, company, job, post and engagement evidence collected through third-party Apify Actors; no official LinkedIn API integration.",
+      "authentication_option_id": null,
+      "required_scopes": [],
+      "setup_guidance": "docs/setup.md"
+    },
+    {
       "application_slug": "apify",
-      "description": "Collect supported LinkedIn source data and read existing run/dataset evidence.",
+      "description": "Runs the qualified third-party LinkedIn collection Actors and provides owned run, input and stored-result access for all 24 tools.",
       "authentication_option_id": "api-token",
       "required_scopes": [],
       "setup_guidance": "docs/setup.md"
